@@ -1,0 +1,28 @@
+version: 1
+disable_existing_loggers: False
+
+formatters:
+  default:
+    format: "%(asctime)s - %(levelname)s - %(name)s - %(message)s"
+
+handlers:
+  file:
+    class: logging.FileHandler
+    filename: uvicorn.log
+    formatter: default
+
+loggers:
+  uvicorn:
+    handlers: [file]
+    level: DEBUG
+    propagate: no
+
+  uvicorn.error:
+    handlers: [file]
+    level: ERROR
+    propagate: no
+
+  uvicorn.access:
+    handlers: [file]
+    level: INFO
+    propagate: no

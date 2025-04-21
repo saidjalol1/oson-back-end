@@ -1,0 +1,64 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environment
+venv/
+env/
+# .env
+.venv/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+
+# Python distribution
+build/
+dist/
+*.egg-info/
+
+# Alembic migrations (optional to ignore generated .py files)
+alembic/versions/*.pyc
+alembic/versions/__pycache__/
+alembic*
+uvicorn.log
+
+
+# Database files
+*.sqlite3
+*.db
+
+# Static/media files (optional: keep directory structure but ignore files)
+static/*
+!static/.gitkeep
+
+# Cache files
+.cache/
+*.bak
+
+# Coverage & test reports
+.coverage
+htmlcov/
+.tox/
+pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# MyPy
+.mypy_cache/
+
+# Pyright
+pyrightconfig.json
+
+# Pydantic/compiled schemas
+__pydantic__/ 
