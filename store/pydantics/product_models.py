@@ -119,7 +119,7 @@ class ProviderOut(ProviderIn):
 class ProductInsOut(BaseModel):
     id: int
     product: Optional[ProductOut] = None
-    payment: float
+    payment: Optional[float] = None
     quantity_in : int
     price: int
     date_added : datetime
