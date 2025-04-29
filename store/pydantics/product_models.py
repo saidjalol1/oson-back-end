@@ -111,9 +111,9 @@ class ProviderEdit(BaseModel):
     
 class ProviderOut(ProviderIn):
     id: int
-    items_provided : List[StoreReportInOut]
-    debt_left: int
-    total: int
+    items_provided : Optional[List[StoreReportInOut]] = None
+    debt_left: Union[float]
+    total: Union[float]
     
 
 class ProductInsOut(BaseModel):
