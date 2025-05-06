@@ -131,7 +131,6 @@ async def get_sales_summary(
         query = query.filter(Sale.debt_payment <= max_debt_payment)
 
     results = query.all()
-
     return [{
         "date": row.date,
         "total_sales": float(row.total_sales) if row.total_sales else 0.0,

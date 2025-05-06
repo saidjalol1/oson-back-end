@@ -106,13 +106,18 @@ class StoreProductReportsIn(db_conf.Base):
     
     @hybrid_property
     def debt_left(self):
-        total = self.price * self.quantity_in
-        debt = 0
-        if self.payment:
-            debt = total - self.payment
-            for i in self.payments:
-                if i.payment:
-                    debt -= i.payment
+        debt = self.price * self.quantity_in
+        print("Total -> ", debt)
+        if self.payment is not None:
+            debt = debt - self.payment
+        
+        print("debt first -> ", debt)
+        for i in self.payments:
+            if i.payment:
+                debt -= i.payment
+                
+        print("debt second -> ", debt)
+        
         return debt
     
     @hybrid_property
