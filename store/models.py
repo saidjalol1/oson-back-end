@@ -3,6 +3,7 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 from store import db_conf
 import enum
+from decimal import Decimal
 
 class UserRole(enum.Enum):
     SUPERUSER = "superuser"
@@ -106,15 +107,15 @@ class StoreProductReportsIn(db_conf.Base):
     
     @hybrid_property
     def debt_left(self):
-        debt = self.price * self.quantity_in
+        debt = Decimal(self.price) * Decimal(self.quantity_in)
         print("Total -> ", debt)
         if self.payment is not None:
-            debt = debt - self.payment
+            debt = debt - Decimal(self.payment)
         
         print("debt first -> ", debt)
         for i in self.payments:
             if i.payment:
-                debt -= i.payment
+                debt -= Decimal(i.payment)
                 
         print("debt second -> ", debt)
         
@@ -122,7 +123,7 @@ class StoreProductReportsIn(db_conf.Base):
     
     @hybrid_property
     def total(self):
-        return self.price * self.quantity_in
+        return Decimal(self.price) * Decimal(self.quantity_in)
 
 
 class ProviderPayment(db_conf.Base):

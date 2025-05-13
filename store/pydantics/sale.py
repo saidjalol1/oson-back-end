@@ -6,7 +6,7 @@ from .product_models import Category
 
 
 class SaleItems(BaseModel):
-    quantity: int
+    quantity: float
     product_id: int
     
     class Config:
@@ -37,15 +37,15 @@ class Product(BaseModel):
     name: str
     
 class Report(BaseModel):
-    quantity_in : int
-    quantity_left : int
+    quantity_in : float
+    quantity_left : float
     product : Product
     price: float
     sale_price: float
     id: int
     
 class SaleItem(BaseModel):
-    quantity: int
+    quantity: float
     product_id: int
     product: Report
     
@@ -59,7 +59,7 @@ class SaleOut(BaseModel):
     owner : UserOut
     items : List[SaleItem]
     
-
+# 1690618978212
 class SaleDelete(BaseModel):
     id: int
     

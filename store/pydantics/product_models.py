@@ -11,7 +11,7 @@ class Category(BaseModel):
 class ProductIn(BaseModel):
     price : float
     sale_price : float
-    quantity_in: int
+    quantity_in: float
     store_id: int
     provider_id : Optional[int] = None
     payment : Optional[int] = None
@@ -36,8 +36,8 @@ class ProductDelete(BaseModel):
 
 class StoreInReport(BaseModel):
     id: int
-    quantity_in : int
-    quantity_left : int
+    quantity_in : float
+    quantity_left : float
     price : float
     sale_price : float
     date_added : datetime
@@ -120,7 +120,7 @@ class ProductInsOut(BaseModel):
     id: int
     product: Optional[ProductOut] = None
     payment: Optional[float] = None
-    quantity_in : int
+    quantity_in : float
     price: int
     date_added : datetime
     total: int

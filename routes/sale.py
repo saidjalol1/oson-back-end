@@ -4,6 +4,7 @@ from dependencies import injections
 from store.pydantics import user_models, product_models, sale
 from store.models import Store, StoreProductReportsIn,Sale, SaleItems , StoreProductReportsOut, UserRole, Product
 from sqlalchemy.orm import joinedload, selectinload
+from decimal import Decimal
 
 router = APIRouter(
     tags=["Sotuv"]
@@ -38,7 +39,8 @@ async def create_sale(sale:sale.Sale ,current_user = injections.user_or_admin, d
     
     for i in sale.items:
         item = db.query(StoreProductReportsIn).filter(StoreProductReportsIn.id == i.product_id).first()
-        num = item.quantity_left - i.quantity
+        # print(item.quantity_left, i.quantity)
+        num = Decimal(str(item.quantity_left)) - Decimal(str(i.quantity))
         if item.quantity_left < i.quantity or num < 0:
             db.delete(sale_obj)
             db.commit()
@@ -46,7 +48,7 @@ async def create_sale(sale:sale.Sale ,current_user = injections.user_or_admin, d
     
     for i in sale.items:
         item = db.query(StoreProductReportsIn).filter(StoreProductReportsIn.id == i.product_id).first()
-        item.quantity_left -= i.quantity
+        item.quantity_left =  float(Decimal(str(item.quantity_left)) - Decimal(str(i.quantity)))
         item = await injections.session_manager(item, db)
         item_out = await injections.session_manager(StoreProductReportsOut(
             quantity_out = i.quantity,
