@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Text, Table, Boolean, Float, DateTime, Numeric, Enum
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
-from store import db_conf
+from .db_conf import Base, current_time
 import enum
 from decimal import Decimal
 
@@ -11,7 +11,7 @@ class UserRole(enum.Enum):
     STAFF = "staff"
 
 
-class User(db_conf.Base):
+class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -30,7 +30,7 @@ class User(db_conf.Base):
     sales = relationship("Sale", back_populates="owner")
 
 
-class Provider(db_conf.Base):
+class Provider(Base):
     __tablename__ = "provider"
     id = Column(Integer, primary_key=True, index=True)
     full_name = Column(String)
@@ -51,7 +51,7 @@ class Provider(db_conf.Base):
         return sum([i.total for i in self.items_provided])
     
     
-class Store(db_conf.Base):
+class Store(Base):
     __tablename__ = "store"
     id = Column(Integer, primary_key=True, index=True)
     boss_id = Column(Integer, ForeignKey("users.id"), nullable=True)
@@ -64,7 +64,7 @@ class Store(db_conf.Base):
     sales = relationship("Sale", back_populates="store")  
     
 
-class ProductCategory(db_conf.Base):
+class ProductCategory(Base):
     __tablename__ = "category"
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
@@ -73,7 +73,7 @@ class ProductCategory(db_conf.Base):
     products = relationship("Product", back_populates="category")
     
     
-class Product(db_conf.Base):
+class Product(Base):
     __tablename__ = "product"
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
@@ -87,14 +87,14 @@ class Product(db_conf.Base):
     store_reports_out = relationship("StoreProductReportsOut", back_populates="product")
 
 
-class StoreProductReportsIn(db_conf.Base):
+class StoreProductReportsIn(Base):
     __tablename__ = "store_product_reports_in"
     id = Column(Integer, primary_key=True, index=True)
     quantity_in = Column(Integer, nullable=False)    
     quantity_left = Column(Integer, nullable=False)
     price = Column(Numeric(10, 3), nullable=False)
     sale_price = Column(Numeric(10, 3), nullable=False)
-    date_added = Column(DateTime, default=db_conf.current_time)
+    date_added = Column(DateTime, default=current_time)
     product_id = Column(Integer, ForeignKey("product.id"))
     provider_id = Column(Integer, ForeignKey("provider.id"))
     payment = Column(Numeric(10, 3))
@@ -126,30 +126,30 @@ class StoreProductReportsIn(db_conf.Base):
         return Decimal(self.price) * Decimal(self.quantity_in)
 
 
-class ProviderPayment(db_conf.Base):
+class ProviderPayment(Base):
     __tablename__ = "payment"
     id = Column(Integer, primary_key=True, index=True)
     payment = Column(Numeric(10, 3))
-    date_added = Column(DateTime, default=db_conf.current_time)
+    date_added = Column(DateTime, default=current_time)
     report_id = Column(Integer, ForeignKey("store_product_reports_in.id"))
     
     report = relationship(StoreProductReportsIn, back_populates="payments")
     
 
-class StoreProductReportsOut(db_conf.Base):
+class StoreProductReportsOut(Base):
     __tablename__ = "store_product_reports_out"
     id = Column(Integer, primary_key=True, index=True)
     quantity_out = Column(Integer, nullable=False)    
     price = Column(Numeric(10,3), nullable=False)
     sale_price = Column(Numeric(10,3) ,nullable=False)
-    date_added = Column(DateTime, default=db_conf.current_time)
+    date_added = Column(DateTime, default=current_time)
     product_id = Column(Integer, ForeignKey("product.id"))
     owner_id = Column(Integer, nullable=False)
     owner_type = Column(String, nullable=False)
     product = relationship("Product", back_populates="store_reports_out")
 
 
-class Sale(db_conf.Base):
+class Sale(Base):
     __tablename__ = "sales"
     id = Column(Integer, primary_key=True, index=True)
     store_id = Column(Integer, ForeignKey("store.id"), nullable=False)
@@ -163,13 +163,13 @@ class Sale(db_conf.Base):
     client_name = Column(String)
     client_number = Column(String)
     client_number2 = Column(String)
-    date_added = Column(DateTime, default=db_conf.current_time)
+    date_added = Column(DateTime, default=current_time)
     store = relationship("Store", back_populates="sales")   
     owner = relationship("User", back_populates="sales")   
     items = relationship("SaleItems", back_populates="sale")   
     
 
-class SaleItems(db_conf.Base):
+class SaleItems(Base):
     __tablename__ = "sale_items"
     id = Column(Integer, primary_key=True, index=True)
     quantity = Column(Integer)
