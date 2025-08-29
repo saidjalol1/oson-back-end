@@ -1,0 +1,7 @@
+2025-08-29 13:33:53,909 - INFO - uvicorn.access - 127.0.0.1:54445 - "GET / HTTP/1.1" 401
+2025-08-29 13:33:55,639 - INFO - uvicorn.access - 127.0.0.1:54445 - "GET / HTTP/1.1" 401
+2025-08-29 13:33:55,746 - INFO - uvicorn.access - 127.0.0.1:54445 - "GET /favicon.ico HTTP/1.1" 404
+2025-08-29 13:33:55,748 - INFO - uvicorn.access - 127.0.0.1:54445 - "GET /favicon.ico HTTP/1.1" 404
+2025-08-29 13:34:03,894 - INFO - uvicorn.access - 127.0.0.1:50746 - "GET / HTTP/1.1" 401
+2025-08-29 13:34:06,078 - INFO - uvicorn.access - 127.0.0.1:50746 - "GET /docs HTTP/1.1" 200
+2025-08-29 13:34:08,836 - INFO - uvicorn.access - 127.0.0.1:53985 - "GET /openapi.json HTTP/1.1" 200
