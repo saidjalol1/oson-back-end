@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.INFO)
 my_app = FastAPI()
 my_app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://oson-savdo.vercel.app", "http://localhost:3000"],
+    allow_origins=["https://medical-berna-privet-65c89d59.koyeb.app", "http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],  
     allow_headers=["*"],  
