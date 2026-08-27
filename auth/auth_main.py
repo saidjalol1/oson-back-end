@@ -8,8 +8,8 @@ from .password import pwd_context
 from jose import JWTError, jwt
 from decouple import config
 
-JWT_SECRET = config("secret")
-ALGORITH = config("algorithm")
+JWT_SECRET = config("JWT_SECRET")
+ALGORITHM = config("JWT_ALGORITHM", default="HS256")
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -31,7 +31,7 @@ def get_user(username, model,db: Session ):
 
 def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends(get_db)):
     try:
-        payload  = jwt.decode(token, JWT_SECRET, algorithms=[ALGORITH])
+        payload  = jwt.decode(token, JWT_SECRET, algorithms=[ALGORITHM])
         username = payload.get("sub")
         user_id = payload.get("id")
         if username is None or user_id is None:
@@ -44,7 +44,7 @@ def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Session 
     
 def is_super_user(token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends(get_db)):
     try:
-        payload  = jwt.decode(token, JWT_SECRET, algorithms=[ALGORITH])
+        payload  = jwt.decode(token, JWT_SECRET, algorithms=[ALGORITHM])
         username = payload.get("sub")
         user_id = payload.get("id")
         if username is None or user_id is None:
@@ -60,7 +60,7 @@ def is_super_user(token: Annotated[str, Depends(oauth2_scheme)], db: Session = D
     
 def is_admin(token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends(get_db)):
     try:
-        payload  = jwt.decode(token, JWT_SECRET, algorithms=[ALGORITH])
+        payload  = jwt.decode(token, JWT_SECRET, algorithms=[ALGORITHM])
         username = payload.get("sub")
         user_id = payload.get("id")
         if username is None or user_id is None:
@@ -76,7 +76,7 @@ def is_admin(token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depend
 
 def is_user(token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends(get_db)):
     try:
-        payload  = jwt.decode(token, JWT_SECRET, algorithms=[ALGORITH])
+        payload  = jwt.decode(token, JWT_SECRET, algorithms=[ALGORITHM])
         username = payload.get("sub")
         user_id = payload.get("id")
         if username is None or user_id is None:
@@ -92,7 +92,7 @@ def is_user(token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends
 
 def is_admin_or_user(token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends(get_db)):
     try:
-        payload  = jwt.decode(token, JWT_SECRET, algorithms=[ALGORITH])
+        payload  = jwt.decode(token, JWT_SECRET, algorithms=[ALGORITHM])
         username = payload.get("sub")
         user_id = payload.get("id")
         if username is None or user_id is None:

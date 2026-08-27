@@ -5,6 +5,7 @@ from fastapi import FastAPI ,HTTPException, status, staticfiles,  Request, Depen
 from fastapi.security import OAuth2PasswordRequestForm
 from auth import auth_main, token
 from dependencies import injections
+from decouple import config
 from store.pydantics import user_models
 from store import models
 from routes import users, products, sale, statistics
@@ -28,7 +29,7 @@ my_app.include_router(users.router)
 my_app.include_router(products.router)
 my_app.include_router(sale.router)
 my_app.include_router(statistics.router)
-my_app.add_middleware(SessionMiddleware, secret_key="gugiuggbgjkh")
+my_app.add_middleware(SessionMiddleware, secret_key=config("SESSION_SECRET"))
 my_app.mount("/static", staticfiles.StaticFiles(directory="static/"), name="static")
 
 

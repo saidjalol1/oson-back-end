@@ -3,8 +3,8 @@ from fastapi import Depends
 from jose import jwt, JWTError
 from decouple import config
 
-JWT_SECRET = config("secret")
-ALGORITH = config("algorithm")
+JWT_SECRET = config("JWT_SECRET")
+ALGORITHM = config("JWT_ALGORITHM", default="HS256")
 
 
 def create_access_token(username: str, user_id: int, expires_delta: timedelta):
@@ -12,5 +12,5 @@ def create_access_token(username: str, user_id: int, expires_delta: timedelta):
     expires = datetime.now(timezone.utc) + expires_delta
     print(expires)
     encode.update({"exp": expires})
-    return jwt.encode(encode, JWT_SECRET,algorithm=ALGORITH)
+    return jwt.encode(encode, JWT_SECRET, algorithm=ALGORITHM)
 
